@@ -101,7 +101,7 @@ pip install -r requirements.txt
     make predictive-pipeline
     ```
 
-## 2. Explanatory Modeling Pipeline: Clinical Impact of PIMs and Hospital Readmissions
+### 2. Explanatory Modeling Pipeline: Clinical Impact of PIMs and Hospital Readmissions
 * A logistic regression model was developed using the full post-stroke cohort to quantify the association between PIM exposure and 180-day readmissions, examining whether this relationship differs between aphasia and non-aphasia patients. The model included aphasia status, PIM exposure, and seven mental health comorbidities as covariates, with an interaction term tested but removed due to non-significance. L1 regularization (α = 0.01) was applied to handle quasi-separation in the data, with bootstrap confidence intervals (1,000 iterations) calculated for predicted probabilities and G-computation used for marginal effects decomposition. The analysis produced predicted probabilities of readmission for all aphasia/PIM combinations, translated these into expected events per 1,000 patients, and decomposed readmission disparities by their contributing factors. Results revealed an exceptionally strong association between PIMs and readmissions (~100-fold difference), though the quasi-separation pattern indicates this is likely an associative rather than causal relationship.
 
 * To run the explanatory modeling pipeline, run the following commands:

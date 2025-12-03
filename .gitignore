@@ -1,0 +1,12 @@
+/src/data/*
+!/src/data/.gitkeep
+/data/*
+scratch
+__pycache__
+.DS_Store
+.ipynb_checkpoints
+.vscode
+config.py
+.Rproj.user
+project-charVANder.Rproj
+.Rhistory

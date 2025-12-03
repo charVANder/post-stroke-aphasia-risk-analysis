@@ -1,0 +1,21 @@
+{
+  "name": "github-pages",
+  "version": "1.0.0",
+  "description": "OHDSI-Stroke GitHub Pages with Observable Framework",
+  "type": "module",
+  "scripts": {
+    "dev": "observable preview",
+    "build": "observable build",
+    "deploy": "observable build && touch dist/.nojekyll",
+    "clean": "observable clean"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@observablehq/framework": "^1.13.3"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}

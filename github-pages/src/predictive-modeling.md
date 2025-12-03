@@ -68,7 +68,7 @@ Features ranked by absolute coefficient magnitude, indicating strongest associat
 | 14 | has_aphasia | 1.08 | Aphasia diagnosis |
 | 15 | total_med_count | 1.05 | Total medication count |
 
-- The interaction between aphasia and polypharmacy is the strongest predictor (OR = 1.62), indicating that patients with both conditions face substantially elevated 180-day readmission risk.
+- The interaction between aphasia and polypharmacy is the strongest predictor (OR = 1.62), indicating that patients with both conditions face substantially elevated readmission risk.
 - Medication-diagnosis discordance (prescriptions without corresponding diagnoses) shows strong association with readmission.
 - Mental health burden demonstrates a dose-response relationship with readmission risk.
 
@@ -266,4 +266,4 @@ Random seed: 42 (fixed for reproducibility)
 
 ---
 
-**Last Updated:** December 2, 2025
+**Last Updated:** December 3, 2025

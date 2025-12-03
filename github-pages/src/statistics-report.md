@@ -196,8 +196,6 @@ Among patients with mental health diagnoses, we expected higher baseline PIM use
 | Antidepressant Risk | 150 (3.29%) | 437 (2.07%) | +1.21 pp |
 | Anxiolytic Risk | 79 (1.73%) | 449 (2.13%) | -0.40 pp |
 
-*See [Interactive Cohort Explorer](./cohort-explorer) for visual representations.*   
-
 ### Patients WITHOUT Mental Health Conditions (n = 27,427)
 Among patients without mental health diagnoses, PIM use was expected to be lower overall. It should be noted that risk flags become particularly concerning here, as they indicate patients receiving medications despite no documented mental health condition. This is a potential signal of diagnostic gaps or informal prescribing.
 
@@ -208,10 +206,8 @@ Among patients without mental health diagnoses, PIM use was expected to be lower
 | Antidepressant Risk | 445 (12.03%) | 2,497 (10.52%) | +1.51 pp |
 | Anxiolytic Risk | 164 (4.43%) | 1,132 (4.77%) | -0.34 pp |
 
-*See [Interactive Cohort Explorer](./cohort-explorer) for visual representations.*
-
 ---
 
 *Note: pp = percentage points. All statistical tests used α = 0.05 significance level. Dementia patients were excluded from all analyses to avoid confounding.*
 
-**Last Updated:** December 2, 2025
+**Last Updated:** December 3, 2025

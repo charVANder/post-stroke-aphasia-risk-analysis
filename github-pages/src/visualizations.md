@@ -232,11 +232,78 @@ Plot.plot({
 
 <br>
 
-### Top 15 Predictors (Logistic Regression)
-<p align="center">
-    <img src="figs/odds_ratios_logistic_regression.png" width="700">
-    <a id="lr-odds-ratios-graph"></a>
-</p><br>
+### Top 15 Predictors (Logistic Regression) <a id="lr-odds-ratios-graph"></a>
+*Red line: OR=1 (no effect)*
+```js
+const predictorsData = [
+  {rank: 1, feature: "aphasia_x_polypharm", OR: 1.62},
+  {rank: 2, feature: "has_anxiety", OR: 1.45},
+  {rank: 3, feature: "has_any_discordance", OR: 1.38},
+  {rank: 4, feature: "hyp_sed_risk", OR: 1.35},
+  {rank: 5, feature: "has_polypharmacy_all_meds", OR: 1.31},
+  {rank: 6, feature: "anxiolytic_risk", OR: 1.28},
+  {rank: 7, feature: "has_seizure", OR: 1.24},
+  {rank: 8, feature: "mh_burden", OR: 1.22},
+  {rank: 9, feature: "has_any_mental_health_condition", OR: 1.18},
+  {rank: 10, feature: "has_schizophrenia", OR: 1.16},
+  {rank: 11, feature: "has_ptsd", OR: 1.15},
+  {rank: 12, feature: "has_bipolar", OR: 1.12},
+  {rank: 13, feature: "has_depression", OR: 1.10},
+  {rank: 14, feature: "has_aphasia", OR: 1.08},
+  {rank: 15, feature: "total_med_count", OR: 1.05}
+];
+```
+```js
+Plot.plot({
+  width: 850,
+  height: 800,
+  marginLeft: 250,
+  marginBottom: 80,
+  insetLeft: 10,
+  insetRight: 10,
+  style: {
+    fontSize: "15px",
+    overflow: "visible"
+  },
+  y: {
+    label: null,
+    type: "band",
+    padding: 0.6,
+    tickSize: 0
+  },
+  x: {
+    label: "Odds Ratio"
+  },
+  marks: [
+    // Bars
+    Plot.barX(predictorsData, {
+      x: "OR",
+      y: "feature",
+      sort: { y: "x", reverse: true },
+      fill: "#1f77b4"
+    }),
+
+    // OR value labels
+    Plot.text(predictorsData, {
+      x: "OR",
+      y: "feature",
+      text: d => d.OR.toFixed(2),
+      dx: 6,
+      dy: 3,
+      textAnchor: "start",
+      fontSize: 14,
+      fill: "black"
+    }),
+
+    // OR = 1 reference line
+    Plot.ruleX([1], {
+      stroke: "red",
+      strokeDasharray: "4,4",
+      strokeWidth: 2
+    })
+  ]
+})
+```
 
 <br>
 
@@ -483,4 +550,4 @@ Plot.plot({
 
 ---
 
-**Last Updated:** December 2, 2025
+**Last Updated:** December 3, 2025

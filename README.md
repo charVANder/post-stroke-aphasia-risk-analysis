@@ -1,4 +1,9 @@
 # Prevalence and Impact of PIMs, Mental Health, and Polypharmacy in Post-Stroke Aphasia
+
+*Capstone project for our M.S. in Data Science from  Northeastern University.*<br>
+**Team:** [Evangeline Kim](https://github.com/charVANder) & [Liam O'Connor](https://github.com/LRDOC)<br>
+**Stakeholder:** [Rob Cavanaugh](https://roux.northeastern.edu/people/rob-cavanaugh/) (PhD, Asst. Prof., MGH Institute, The Roux Institute)
+
 The goal of this project is to investigate the prevalence and impact of potentially inappropriate medications (PIMs) in stroke survivors with a focus on people with aphasia (a population that experiences communication and healthcare barriers). The main questions being answered center on identifying drug-related risks that might affect recovery and increase hospital readmissions, especially in those with underdiagnosed mental health conditions. With claims data, the Pharmetrics+ dataset and OMOP Common Data Model, we hope to generate more insight for safer prescribing practices and possibly future publications focused on improving post-stroke care for vulnerable populations.
 
 ## Website

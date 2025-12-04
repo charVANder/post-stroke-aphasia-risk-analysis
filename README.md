@@ -113,4 +113,4 @@ pip install -r requirements.txt
 
 ---
 
-*The base stroke cohort used in this project was built off of the work done in a previous project found [here](https://github.com/cbt87/stroke_aftercare)*
+*The base stroke cohort used in this project was built off of the work done in a previous project found [here](https://github.com/cbt87/stroke_aftercare).*

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.3">
+<title>Statistics Report | OHDSI-Stroke</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="./_observablehq/theme-air,near-midnight.dcdbf18e.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="./_observablehq/theme-air,near-midnight.dcdbf18e.css">
+<link rel="modulepreload" href="./_observablehq/client.33da7c34.js">
+<link rel="modulepreload" href="./_observablehq/runtime.e080113b.js">
+<link rel="modulepreload" href="./_observablehq/stdlib.73a8ec5a.js">
+<link rel="icon" href="./_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import "./_observablehq/client.33da7c34.js";
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link"><a href="./">OHDSI-Stroke</a></li>
+  </ol>
+  <ol>
+    <li class="observablehq-link"><a href="./">Home</a></li>
+    <li class="observablehq-link"><a href="./methodology">Methodology</a></li>
+    <li class="observablehq-link"><a href="./cohort-explorer">Interactive Cohort Explorer</a></li>
+    <li class="observablehq-link observablehq-link-active"><a href="./statistics-report">Statistics Report</a></li>
+    <li class="observablehq-link"><a href="./predictive-modeling">Predictive Modeling Report</a></li>
+    <li class="observablehq-link"><a href="./explanatory-modeling">Explanatory Modeling Report</a></li>
+    <li class="observablehq-link"><a href="./visualizations">Visualizations</a></li>
+    <li class="observablehq-link"><a href="./key-takeaways">Key Takeaways</a></li>
+    <li class="observablehq-link"><a href="./conclusions">Conclusions</a></li>
+  </ol>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#study-overview">Study Overview</a></li>
+<li class="observablehq-secondary-link"><a href="#mental-health-condition-prevalence">Mental Health Condition Prevalence</a></li>
+<li class="observablehq-secondary-link"><a href="#potentially-inappropriate-medication-pim-prevalence">Potentially Inappropriate Medication (PIM) Prevalence</a></li>
+<li class="observablehq-secondary-link"><a href="#medication-diagnosis-risk-flags">Medication-Diagnosis Risk Flags</a></li>
+<li class="observablehq-secondary-link"><a href="#high-risk-patient-classification">High-Risk Patient Classification</a></li>
+<li class="observablehq-secondary-link"><a href="#additional-risk-metrics">Additional Risk Metrics</a></li>
+<li class="observablehq-secondary-link"><a href="#correlation-analysis">Correlation Analysis</a></li>
+<li class="observablehq-secondary-link"><a href="#stratified-analysis-by-mental-health-status">Stratified Analysis by Mental Health Status</a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<h1 id="statistics-report" tabindex="-1"><a class="observablehq-header-anchor" href="#statistics-report">Statistics Report</a></h1>
+<p>This page provides the statistics and test results of our cohort analysis. For more detailed methodology and visualizations, please also see other pages.</p>
+<p>For key observations and a more detailed interpretation of all these results, please refer to the specific Key Takeaways section found <a href="./key-takeaways#statistics-takeaways">here</a>.</p>
+<hr>
+<h2 id="study-overview" tabindex="-1"><a class="observablehq-header-anchor" href="#study-overview">Study Overview</a></h2>
+<p><strong>Initial Stroke Population:</strong> ~174,000 patients (all hospital patients with ≥1 stroke occurrence with second occurring within 6 months)</p>
+<p><strong>Base Cohort:</strong> 53,068 patients</p>
+<ul>
+<li>Inclusion criteria: Patients without dementia and with a 6-month observation period before/after first stroke occurrence</li>
+<li><strong>With Aphasia:</strong> 8,265 (15.57%)</li>
+<li><strong>Without Aphasia:</strong> 44,803 (84.43%)</li>
+</ul>
+<p><strong>Statistical Methods:</strong></p>
+<ul>
+<li>Chi-square tests for categorical variables</li>
+<li>Independent t-tests for continuous variables</li>
+<li>Pearson correlation for associations</li>
+<li>Significance level: α = 0.05</li>
+</ul>
+<hr>
+<h2 id="mental-health-condition-prevalence" tabindex="-1"><a class="observablehq-header-anchor" href="#mental-health-condition-prevalence">Mental Health Condition Prevalence</a></h2>
+<p>Examining whether patients with aphasia have different rates of diagnosed mental health conditions compared to patients without aphasia. Significant p-values (p &lt; 0.05) indicate that the observed differences are unlikely to be due to chance alone.</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Aphasia</th>
+<th>No Aphasia</th>
+<th>Difference</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Any Mental Health Condition</strong></td>
+<td>4,566 (55.25%)</td>
+<td>21,075 (47.04%)</td>
+<td>+8.21 pp</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Depression</td>
+<td>2,757 (33.36%)</td>
+<td>12,616 (28.16%)</td>
+<td>+5.20 pp</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Anxiety</td>
+<td>2,392 (28.94%)</td>
+<td>12,306 (27.47%)</td>
+<td>+1.47 pp</td>
+<td>0.0062</td>
+</tr>
+<tr>
+<td>Seizure Disorder</td>
+<td>1,730 (20.93%)</td>
+<td>5,428 (12.12%)</td>
+<td>+8.82 pp</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Bipolar Disorder</td>
+<td>153 (1.85%)</td>
+<td>879 (1.96%)</td>
+<td>-0.11 pp</td>
+<td>0.5309</td>
+</tr>
+<tr>
+<td>Psychotic Disorder</td>
+<td>118 (1.43%)</td>
+<td>644 (1.44%)</td>
+<td>-0.01 pp</td>
+<td>0.9858</td>
+</tr>
+<tr>
+<td>PTSD</td>
+<td>92 (1.11%)</td>
+<td>595 (1.33%)</td>
+<td>-0.21 pp</td>
+<td>0.1247</td>
+</tr>
+<tr>
+<td>Schizophrenia</td>
+<td>30 (0.36%)</td>
+<td>197 (0.44%)</td>
+<td>-0.08 pp</td>
+<td>0.3733</td>
+</tr>
+</tbody>
+</table>
+<p><em>See <a href="./cohort-explorer">Interactive Cohort Explorer</a> for visual representation.</em></p>
+<h3 id="mental-health-condition-burden" tabindex="-1"><a class="observablehq-header-anchor" href="#mental-health-condition-burden">Mental Health Condition Burden</a></h3>
+<p>Examining the cumulative burden of mental health conditions (how many distinct conditions each patient has been diagnosed with). We compared both the average number of conditions and the distribution patterns between aphasia and non-aphasia patients. Significant results suggest that aphasia patients not only have higher rates of individual conditions, but also tend to have multiple co-occurring conditions.</p>
+<p><strong>Mean Number of Conditions:</strong></p>
+<ul>
+<li>Aphasia: 0.88 ± 0.98</li>
+<li>No Aphasia: 0.73 ± 0.94</li>
+<li>t-test: p &lt; 0.0001</li>
+</ul>
+<p><strong>Distribution by Number of Conditions:</strong></p>
+<table>
+<thead>
+<tr>
+<th># Conditions</th>
+<th>Aphasia</th>
+<th>No Aphasia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>3,699 (44.75%)</td>
+<td>23,728 (52.96%)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2,517 (30.45%)</td>
+<td>12,208 (27.25%)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1,511 (18.28%)</td>
+<td>6,762 (15.09%)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>450 (5.44%)</td>
+<td>1,666 (3.72%)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>65 (0.79%)</td>
+<td>294 (0.66%)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16 (0.19%)</td>
+<td>108 (0.24%)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>6 (0.07%)</td>
+<td>29 (0.06%)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1 (0.01%)</td>
+<td>5 (0.01%)</td>
+</tr>
+</tbody>
+</table>
+<p>Chi-square test: p &lt; 0.0001</p>
+<p><em>Click <a href="./visualizations#mh-burden-distribution-graph">here</a> to see the visualization of this distribution (Mental Health Burden Distribution).</em></p>
+<hr>
+<h2 id="potentially-inappropriate-medication-pim-prevalence" tabindex="-1"><a class="observablehq-header-anchor" href="#potentially-inappropriate-medication-pim-prevalence">Potentially Inappropriate Medication (PIM) Prevalence</a></h2>
+<p>Comparing the use of PIMs between aphasia and non-aphasia patients. Polypharmacy is also examined as it increases the risk of adverse drug interactions. Significant differences suggest disparities in medication management between the two groups.</p>
+<table>
+<thead>
+<tr>
+<th>Medication Type</th>
+<th>Aphasia</th>
+<th>No Aphasia</th>
+<th>Difference</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Any PIM</strong></td>
+<td>2,869 (34.71%)</td>
+<td>14,102 (31.48%)</td>
+<td>+3.24 pp</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Antidepressant</td>
+<td>2,403 (29.07%)</td>
+<td>11,309 (25.24%)</td>
+<td>+3.83 pp</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Anxiolytic</td>
+<td>1,011 (12.23%)</td>
+<td>5,515 (12.31%)</td>
+<td>-0.08 pp</td>
+<td>0.8587</td>
+</tr>
+<tr>
+<td>Antipsychotic</td>
+<td>451 (5.46%)</td>
+<td>2,274 (5.08%)</td>
+<td>+0.38 pp</td>
+<td>0.1569</td>
+</tr>
+<tr>
+<td>Hypnotic/Sedative</td>
+<td>240 (2.90%)</td>
+<td>1,500 (3.35%)</td>
+<td>-0.44 pp</td>
+<td>0.0404</td>
+</tr>
+<tr>
+<td><strong>Polypharmacy (≥5 meds)</strong></td>
+<td>3,766 (45.57%)</td>
+<td>18,726 (41.80%)</td>
+<td>+3.77 pp</td>
+<td>&lt;0.0001</td>
+</tr>
+</tbody>
+</table>
+<p><em>See <a href="./cohort-explorer">Interactive Cohort Explorer</a> for visual representation</em></p>
+<h3 id="pim-burden" tabindex="-1"><a class="observablehq-header-anchor" href="#pim-burden">PIM Burden</a></h3>
+<p>Similar to the mental health burden, we examined how many different PIMs patients are taking.</p>
+<p><strong>Mean Number of PIMs:</strong></p>
+<ul>
+<li>Aphasia: 0.50 ± 0.78</li>
+<li>No Aphasia: 0.46 ± 0.78</li>
+<li>t-test: p &lt; 0.0001</li>
+</ul>
+<p><strong>Distribution by Number of PIMs:</strong></p>
+<table>
+<thead>
+<tr>
+<th># PIMs</th>
+<th>Aphasia</th>
+<th>No Aphasia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>5,396 (65.29%)</td>
+<td>30,701 (68.52%)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1,882 (22.77%)</td>
+<td>9,000 (20.09%)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>761 (9.21%)</td>
+<td>3,869 (8.64%)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>203 (2.46%)</td>
+<td>1,072 (2.39%)</td>
+</tr>
+<tr>
+<td>4+</td>
+<td>23 (0.28%)</td>
+<td>161 (0.36%)</td>
+</tr>
+</tbody>
+</table>
+<p>Chi-square test: p &lt; 0.0001</p>
+<p><em>Click <a href="./visualizations#pim-burden-distribution-graph">here</a> to see the visualization of this distribution (PIM Burden Distribution).</em></p>
+<hr>
+<h2 id="medication-diagnosis-risk-flags" tabindex="-1"><a class="observablehq-header-anchor" href="#medication-diagnosis-risk-flags">Medication-Diagnosis Risk Flags</a></h2>
+<p>Risk flags identify potential medication-diagnosis discordance—situations where patients are receiving medications without a corresponding formal diagnosis in their medical record. Significant differences indicate that the pattern of discordance differs between groups.</p>
+<table>
+<thead>
+<tr>
+<th>Risk Category</th>
+<th>Aphasia</th>
+<th>No Aphasia</th>
+<th>Difference</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Antidepressant Risk</td>
+<td>595 (7.20%)</td>
+<td>2,934 (6.55%)</td>
+<td>+0.65 pp</td>
+<td>0.0310</td>
+</tr>
+<tr>
+<td>Antipsychotic Risk</td>
+<td>365 (4.42%)</td>
+<td>1,714 (3.83%)</td>
+<td>+0.59 pp</td>
+<td>0.0120</td>
+</tr>
+<tr>
+<td>Anxiolytic Risk</td>
+<td>243 (2.94%)</td>
+<td>1,581 (3.53%)</td>
+<td>-0.59 pp</td>
+<td>0.0077</td>
+</tr>
+<tr>
+<td>Hypnotic/Sedative Risk</td>
+<td>108 (1.31%)</td>
+<td>683 (1.52%)</td>
+<td>-0.22 pp</td>
+<td>0.1466</td>
+</tr>
+</tbody>
+</table>
+<p><em>See <a href="./cohort-explorer">Interactive Cohort Explorer</a> for visual representation.</em></p>
+<hr>
+<h2 id="high-risk-patient-classification" tabindex="-1"><a class="observablehq-header-anchor" href="#high-risk-patient-classification">High-Risk Patient Classification</a></h2>
+<p>A composite risk score was used to identify patients with multiple risk factors by summing individual risk flags and polypharmacy status. Patients with a total risk score of 2 or higher were classified as "high-risk," indicating they face compounded medication safety concerns.</p>
+<p><strong>Definition:</strong> Total risk score ≥ 2 (sum of individual risk flags + polypharmacy indicator)</p>
+<p><strong>Prevalence:</strong></p>
+<ul>
+<li>Aphasia: 958 / 8,265 (11.59%)</li>
+<li>No Aphasia: 4,775 / 44,803 (10.66%)</li>
+<li>Difference: +0.93 pp (p = 0.0127)</li>
+</ul>
+<h3 id="risk-score-distribution" tabindex="-1"><a class="observablehq-header-anchor" href="#risk-score-distribution">Risk Score Distribution</a></h3>
+<table>
+<thead>
+<tr>
+<th>Risk Score</th>
+<th>Aphasia</th>
+<th>No Aphasia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>4,309 (52.14%)</td>
+<td>24,771 (55.29%)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2,998 (36.27%)</td>
+<td>15,257 (34.05%)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>812 (9.82%)</td>
+<td>4,044 (9.03%)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>130 (1.57%)</td>
+<td>638 (1.42%)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>15 (0.18%)</td>
+<td>86 (0.19%)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1 (0.01%)</td>
+<td>7 (0.02%)</td>
+</tr>
+</tbody>
+</table>
+<p><em>Click <a href="./visualizations#risk-score-distribution-graph">here</a> to see the visualization of this distribution (Risk Score Distribution).</em></p>
+<hr>
+<h2 id="additional-risk-metrics" tabindex="-1"><a class="observablehq-header-anchor" href="#additional-risk-metrics">Additional Risk Metrics</a></h2>
+<p>Continuous measures were added for extra perspective on medication use and risk. They capture not just whether patients have PIMs or polypharmacy, but to what extent and what intensity of exposure over time. Significant p-values indicate meaningful differences in the magnitude of medication burden between groups.</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Aphasia (Mean ± SD)</th>
+<th>No Aphasia (Mean ± SD)</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total PIM Count</td>
+<td>0.85 ± 1.71</td>
+<td>0.76 ± 1.62</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Max Concurrent PIMs</td>
+<td>0.63 ± 1.08</td>
+<td>0.58 ± 1.06</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Total Risk Score</td>
+<td>0.61 ± 0.74</td>
+<td>0.57 ± 0.73</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Total Medication Count</td>
+<td>9.42 ± 10.34</td>
+<td>9.04 ± 10.13</td>
+<td>0.0019</td>
+</tr>
+<tr>
+<td>Max Concurrent Medications</td>
+<td>5.16 ± 4.89</td>
+<td>4.92 ± 4.77</td>
+<td>&lt;0.0001</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="correlation-analysis" tabindex="-1"><a class="observablehq-header-anchor" href="#correlation-analysis">Correlation Analysis</a></h2>
+<p>Correlation measures the strength and direction of the relationships between certain variables (ranging from -1 to +1). Even small correlations can be statistically significant in large samples (although practical significance can also change depending on context).</p>
+<h3 id="aphasia-and-key-outcomes" tabindex="-1"><a class="observablehq-header-anchor" href="#aphasia-and-key-outcomes">Aphasia and Key Outcomes</a></h3>
+<p>Correlations to examine how strongly aphasia status is associated with various adverse outcomes. While statistically significant, smaller correlation coefficients also indicate that aphasia explains only a small portion of variance in these outcomes. Other factors likely play larger roles.</p>
+<table>
+<thead>
+<tr>
+<th>Variable Pair</th>
+<th>r</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aphasia × Any Mental Health Condition</td>
+<td>0.0595</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Aphasia × Polypharmacy</td>
+<td>0.0277</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Aphasia × Any PIM</td>
+<td>0.0252</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Aphasia × Total Risk Score</td>
+<td>0.0208</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Aphasia × High-Risk Status</td>
+<td>0.0109</td>
+<td>0.0120</td>
+</tr>
+</tbody>
+</table>
+<h3 id="risk-factors-and-mental-health" tabindex="-1"><a class="observablehq-header-anchor" href="#risk-factors-and-mental-health">Risk Factors and Mental Health</a></h3>
+<p>Correlations to examine relationships between different risk measures. Strong correlations show how these measures are related. The more modest correlations also suggest that certain risk factors tend to cluster together, which may have clinical implications in future analyses.</p>
+<table>
+<thead>
+<tr>
+<th>Variable Pair</th>
+<th>r</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Polypharmacy × Risk Score</td>
+<td>0.8311</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>PIM Count × Risk Score</td>
+<td>0.4979</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Mental Health × PIM</td>
+<td>0.3533</td>
+<td>&lt;0.0001</td>
+</tr>
+<tr>
+<td>Mental Health × Risk Score</td>
+<td>0.0269</td>
+<td>&lt;0.0001</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="stratified-analysis-by-mental-health-status" tabindex="-1"><a class="observablehq-header-anchor" href="#stratified-analysis-by-mental-health-status">Stratified Analysis by Mental Health Status</a></h2>
+<p>Examining whether the relationship between aphasia and medication outcomes differs depending on whether patients have diagnosed mental health conditions.</p>
+<h3 id="patients-with-mental-health-conditions-n-25-641" tabindex="-1"><a class="observablehq-header-anchor" href="#patients-with-mental-health-conditions-n-25-641">Patients WITH Mental Health Conditions (n = 25,641)</a></h3>
+<p>Among patients with mental health diagnoses, we expected higher baseline PIM use since these medications are often prescribed for mental health treatment.</p>
+<table>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Aphasia (n=4,566)</th>
+<th>No Aphasia (n=21,075)</th>
+<th>Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Any PIM</td>
+<td>2,249 (49.26%)</td>
+<td>10,321 (48.97%)</td>
+<td>+0.28 pp</td>
+</tr>
+<tr>
+<td>High-Risk</td>
+<td>448 (9.81%)</td>
+<td>1,841 (8.74%)</td>
+<td>+1.08 pp</td>
+</tr>
+<tr>
+<td>Antidepressant Risk</td>
+<td>150 (3.29%)</td>
+<td>437 (2.07%)</td>
+<td>+1.21 pp</td>
+</tr>
+<tr>
+<td>Anxiolytic Risk</td>
+<td>79 (1.73%)</td>
+<td>449 (2.13%)</td>
+<td>-0.40 pp</td>
+</tr>
+</tbody>
+</table>
+<h3 id="patients-without-mental-health-conditions-n-27-427" tabindex="-1"><a class="observablehq-header-anchor" href="#patients-without-mental-health-conditions-n-27-427">Patients WITHOUT Mental Health Conditions (n = 27,427)</a></h3>
+<p>Among patients without mental health diagnoses, PIM use was expected to be lower overall. It should be noted that risk flags become particularly concerning here, as they indicate patients receiving medications despite no documented mental health condition. This is a potential signal of diagnostic gaps or informal prescribing.</p>
+<table>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Aphasia (n=3,699)</th>
+<th>No Aphasia (n=23,728)</th>
+<th>Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Any PIM</td>
+<td>620 (16.76%)</td>
+<td>3,781 (15.93%)</td>
+<td>+0.83 pp</td>
+</tr>
+<tr>
+<td>High-Risk</td>
+<td>510 (13.79%)</td>
+<td>2,934 (12.37%)</td>
+<td>+1.42 pp</td>
+</tr>
+<tr>
+<td>Antidepressant Risk</td>
+<td>445 (12.03%)</td>
+<td>2,497 (10.52%)</td>
+<td>+1.51 pp</td>
+</tr>
+<tr>
+<td>Anxiolytic Risk</td>
+<td>164 (4.43%)</td>
+<td>1,132 (4.77%)</td>
+<td>-0.34 pp</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><em>Note: pp = percentage points. All statistical tests used α = 0.05 significance level. Dementia patients were excluded from all analyses to avoid confounding.</em></p>
+<p><strong>Last Updated:</strong> December 3, 2025</p>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="prev" href="./cohort-explorer"><span>Interactive Cohort Explorer</span></a><a rel="next" href="./predictive-modeling"><span>Predictive Modeling Report</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2025-12-04T01:50:38">Dec 4, 2025</a>.</div>
+</footer>
+</div>
+</body>
+</html>

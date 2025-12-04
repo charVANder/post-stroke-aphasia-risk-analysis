@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.3">
+<title>Predictive Modeling: Hospital Readmission Risk | OHDSI-Stroke</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="./_observablehq/theme-air,near-midnight.dcdbf18e.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="./_observablehq/theme-air,near-midnight.dcdbf18e.css">
+<link rel="modulepreload" href="./_observablehq/client.33da7c34.js">
+<link rel="modulepreload" href="./_observablehq/runtime.e080113b.js">
+<link rel="modulepreload" href="./_observablehq/stdlib.73a8ec5a.js">
+<link rel="icon" href="./_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import "./_observablehq/client.33da7c34.js";
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link"><a href="./">OHDSI-Stroke</a></li>
+  </ol>
+  <ol>
+    <li class="observablehq-link"><a href="./">Home</a></li>
+    <li class="observablehq-link"><a href="./methodology">Methodology</a></li>
+    <li class="observablehq-link"><a href="./cohort-explorer">Interactive Cohort Explorer</a></li>
+    <li class="observablehq-link"><a href="./statistics-report">Statistics Report</a></li>
+    <li class="observablehq-link observablehq-link-active"><a href="./predictive-modeling">Predictive Modeling Report</a></li>
+    <li class="observablehq-link"><a href="./explanatory-modeling">Explanatory Modeling Report</a></li>
+    <li class="observablehq-link"><a href="./visualizations">Visualizations</a></li>
+    <li class="observablehq-link"><a href="./key-takeaways">Key Takeaways</a></li>
+    <li class="observablehq-link"><a href="./conclusions">Conclusions</a></li>
+  </ol>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#model-overview">Model Overview</a></li>
+<li class="observablehq-secondary-link"><a href="#model-performance">Model Performance</a></li>
+<li class="observablehq-secondary-link"><a href="#feature-importance">Feature Importance</a></li>
+<li class="observablehq-secondary-link"><a href="#feature-engineering">Feature Engineering</a></li>
+<li class="observablehq-secondary-link"><a href="#subgroup-analysis">Subgroup Analysis</a></li>
+<li class="observablehq-secondary-link"><a href="#multivariate-statistical-analysis">Multivariate Statistical Analysis</a></li>
+<li class="observablehq-secondary-link"><a href="#interaction-analysis">Interaction Analysis</a></li>
+<li class="observablehq-secondary-link"><a href="#model-deployment-considerations">Model Deployment Considerations</a></li>
+<li class="observablehq-secondary-link"><a href="#possible-future-directions">Possible Future Directions</a></li>
+<li class="observablehq-secondary-link"><a href="#technical-details">Technical Details</a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<h1 id="predictive-modeling-hospital-readmission-risk" tabindex="-1"><a class="observablehq-header-anchor" href="#predictive-modeling-hospital-readmission-risk">Predictive Modeling: Hospital Readmission Risk</a></h1>
+<p>This page presents the results of predictive models developed to identify stroke survivors at risk for hospital readmission within 180 days of their first potentially inappropriate medication (PIM) prescription.</p>
+<p>For key observations and a more detailed interpretation of these results, please refer to the specific Key Takeaways section found <a href="./key-takeaways#predictive-modeling-takeaways">here</a>.</p>
+<h2 id="model-overview" tabindex="-1"><a class="observablehq-header-anchor" href="#model-overview">Model Overview</a></h2>
+<p><strong>Objective:</strong> Predict 180-day hospital readmissions using medication-related features, mental health comorbidities, and aphasia status.</p>
+<p><strong>Study Population:</strong> 16,971 patients with at least one PIM prescription</p>
+<ul>
+<li>With Aphasia: 2,869 (16.90%)</li>
+<li>Without Aphasia: 14,102 (83.10%)</li>
+</ul>
+<p><strong>Outcome:</strong> Hospital readmission (emergency department or inpatient visit) within 180 days of first PIM prescription</p>
+<p><strong>Note:</strong> The readmission window is configurable in the modeling script. Analysis can be performed for 30-day, 90-day, or 180-day readmissions by changing the <code>READMISSION_OUTCOME</code> variable in <code>src/predictive_modeling.py</code>.</p>
+<p><strong>Statistical Methods:</strong></p>
+<ul>
+<li>Train/test split: 80/20 (stratified by outcome)</li>
+<li>Class weighting: Balanced (to handle class imbalance)</li>
+<li>Cross-validation: 5-fold stratified (Lasso model)</li>
+<li>Evaluation metrics: AUROC (primary), AUPRC, sensitivity, specificity</li>
+</ul>
+<hr>
+<h2 id="model-performance" tabindex="-1"><a class="observablehq-header-anchor" href="#model-performance">Model Performance</a></h2>
+<p>Three models were trained and evaluated: Logistic Regression (interpretable baseline), Lasso Logistic Regression (feature selection), and XGBoost (ensemble method).</p>
+<h3 id="performance-comparison" tabindex="-1"><a class="observablehq-header-anchor" href="#performance-comparison">Performance Comparison</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>AUROC</th>
+<th>AUPRC</th>
+<th>Optimal Threshold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logistic Regression</td>
+<td>0.672</td>
+<td>0.174</td>
+<td>0.483</td>
+</tr>
+<tr>
+<td>Lasso Logistic Regression</td>
+<td>0.637</td>
+<td>0.149</td>
+<td>0.493</td>
+</tr>
+<tr>
+<td>XGBoost</td>
+<td>0.647</td>
+<td>0.149</td>
+<td>0.491</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Best Performing Model:</strong> Logistic Regression (AUROC = 0.672)</p>
+<p>The logistic regression model achieved the highest discrimination (AUROC = 0.672) while maintaining interpretability through odds ratios. This performance is consistent with published literature on hospital readmission prediction (typical range: 0.60-0.75).</p>
+<p><em>Click <a href="./visualizations#roc-curve-graph">here</a> to see the visualization comparing ROC scores across models (ROC Curve Model Comparison).</em></p>
+<hr>
+<h2 id="feature-importance" tabindex="-1"><a class="observablehq-header-anchor" href="#feature-importance">Feature Importance</a></h2>
+<h3 id="top-15-predictors-logistic-regression" tabindex="-1"><a class="observablehq-header-anchor" href="#top-15-predictors-logistic-regression">Top 15 Predictors (Logistic Regression)</a></h3>
+<p>Features ranked by absolute coefficient magnitude, indicating strongest associations with 30-day readmission risk.</p>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>Feature</th>
+<th>Odds Ratio</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>aphasia_x_polypharm</td>
+<td>1.62</td>
+<td>Aphasia + polypharmacy interaction</td>
+</tr>
+<tr>
+<td>2</td>
+<td>has_anxiety</td>
+<td>1.45</td>
+<td>Anxiety disorder diagnosis</td>
+</tr>
+<tr>
+<td>3</td>
+<td>has_any_discordance</td>
+<td>1.38</td>
+<td>Any medication-diagnosis mismatch</td>
+</tr>
+<tr>
+<td>4</td>
+<td>hyp_sed_risk</td>
+<td>1.35</td>
+<td>Hypnotic/sedative without diagnosis</td>
+</tr>
+<tr>
+<td>5</td>
+<td>has_polypharmacy_all_meds</td>
+<td>1.31</td>
+<td>5+ concurrent medications</td>
+</tr>
+<tr>
+<td>6</td>
+<td>anxiolytic_risk</td>
+<td>1.28</td>
+<td>Anxiolytic without diagnosis</td>
+</tr>
+<tr>
+<td>7</td>
+<td>has_seizure</td>
+<td>1.24</td>
+<td>Seizure disorder</td>
+</tr>
+<tr>
+<td>8</td>
+<td>mh_burden</td>
+<td>1.22</td>
+<td>Mental health condition count</td>
+</tr>
+<tr>
+<td>9</td>
+<td>has_any_mental_health_condition</td>
+<td>1.18</td>
+<td>Any mental health diagnosis</td>
+</tr>
+<tr>
+<td>10</td>
+<td>has_schizophrenia</td>
+<td>1.16</td>
+<td>Schizophrenia diagnosis</td>
+</tr>
+<tr>
+<td>11</td>
+<td>has_ptsd</td>
+<td>1.15</td>
+<td>PTSD diagnosis</td>
+</tr>
+<tr>
+<td>12</td>
+<td>has_bipolar</td>
+<td>1.12</td>
+<td>Bipolar disorder</td>
+</tr>
+<tr>
+<td>13</td>
+<td>has_depression</td>
+<td>1.10</td>
+<td>Depression diagnosis</td>
+</tr>
+<tr>
+<td>14</td>
+<td>has_aphasia</td>
+<td>1.08</td>
+<td>Aphasia diagnosis</td>
+</tr>
+<tr>
+<td>15</td>
+<td>total_med_count</td>
+<td>1.05</td>
+<td>Total medication count</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The interaction between aphasia and polypharmacy is the strongest predictor (OR = 1.62), indicating that patients with both conditions face substantially elevated readmission risk.</li>
+<li>Medication-diagnosis discordance (prescriptions without corresponding diagnoses) shows strong association with readmission.</li>
+<li>Mental health burden demonstrates a dose-response relationship with readmission risk.</li>
+</ul>
+<p><em>Click <a href="./visualizations#lr-odds-ratios-graph">here</a> to see the visualization of the Top 15 Predictors and their odds ratios (Top 15 Predictors (Logistic Regression)).</em></p>
+<h3 id="shap-feature-importance-xg-boost" tabindex="-1"><a class="observablehq-header-anchor" href="#shap-feature-importance-xg-boost">SHAP Feature Importance (XGBoost)</a></h3>
+<p>SHAP (SHapley Additive exPlanations) values provide model-agnostic interpretability by measuring each feature's contribution to individual predictions.</p>
+<p><strong>Top 10 Features by Mean SHAP Value:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>Feature</th>
+<th>Mean Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>max_concurrent_meds</td>
+<td>0.245</td>
+</tr>
+<tr>
+<td>2</td>
+<td>total_med_count</td>
+<td>0.198</td>
+</tr>
+<tr>
+<td>3</td>
+<td>mh_burden</td>
+<td>0.142</td>
+</tr>
+<tr>
+<td>4</td>
+<td>has_antipsychotic</td>
+<td>0.089</td>
+</tr>
+<tr>
+<td>5</td>
+<td>has_seizure</td>
+<td>0.087</td>
+</tr>
+<tr>
+<td>6</td>
+<td>has_polypharmacy_all_meds</td>
+<td>0.076</td>
+</tr>
+<tr>
+<td>7</td>
+<td>has_aphasia</td>
+<td>0.068</td>
+</tr>
+<tr>
+<td>8</td>
+<td>total_pim_count</td>
+<td>0.062</td>
+</tr>
+<tr>
+<td>9</td>
+<td>antipsych_risk</td>
+<td>0.059</td>
+</tr>
+<tr>
+<td>10</td>
+<td>max_concurrent_pims</td>
+<td>0.057</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Medication burden (max_concurrent_meds, total_med_count) shows the largest overall impact on readmission predictions.</li>
+<li>Mental health comorbidity burden ranks third in importance.</li>
+<li>Aphasia shows moderate but consistent impact across patients.</li>
+</ul>
+<p><em>Click on the links to see visualizations of the features by their SHAP values (<a href="./visualizations#shap-graph">SHAP Values</a>) and mean SHAP values (<a href="./visualizations#mean-shap-graph">Mean SHAP Values</a>).</em></p>
+<hr>
+<h2 id="feature-engineering" tabindex="-1"><a class="observablehq-header-anchor" href="#feature-engineering">Feature Engineering</a></h2>
+<p>To capture complex relationships and clinical patterns, 11 engineered features were created from the base dataset:</p>
+<h3 id="interaction-features" tabindex="-1"><a class="observablehq-header-anchor" href="#interaction-features">Interaction Features</a></h3>
+<ul>
+<li><strong>aphasia_x_mh:</strong> Aphasia × mental health condition interaction</li>
+<li><strong>aphasia_x_highrisk:</strong> Aphasia × high-risk status interaction</li>
+<li><strong>aphasia_x_polypharm:</strong> Aphasia × polypharmacy interaction</li>
+</ul>
+<h3 id="burden-scores" tabindex="-1"><a class="observablehq-header-anchor" href="#burden-scores">Burden Scores</a></h3>
+<ul>
+<li><strong>mh_burden:</strong> Count of distinct mental health conditions (0-7)</li>
+<li><strong>pim_diversity:</strong> Count of distinct PIM categories (0-4)</li>
+<li><strong>med_dx_discordance:</strong> Sum of medication-diagnosis mismatches (0-4)</li>
+</ul>
+<h3 id="binary-indicators" tabindex="-1"><a class="observablehq-header-anchor" href="#binary-indicators">Binary Indicators</a></h3>
+<ul>
+<li><strong>has_any_discordance:</strong> Any medication without diagnosis</li>
+<li><strong>antidep_anxio_combo:</strong> Concurrent antidepressant + anxiolytic use</li>
+<li><strong>multiple_discordances:</strong> 2+ medication-diagnosis mismatches</li>
+<li><strong>high_med_burden:</strong> 10+ total medications</li>
+<li><strong>complex_patient:</strong> Aphasia + mental health condition + PIM</li>
+</ul>
+<p><strong>Total Features:</strong> 36 (25 original + 11 engineered)</p>
+<hr>
+<h2 id="subgroup-analysis" tabindex="-1"><a class="observablehq-header-anchor" href="#subgroup-analysis">Subgroup Analysis</a></h2>
+<p>Model performance was evaluated separately for patients with and without aphasia to ensure fairness and identify potential disparities.</p>
+<h3 id="performance-by-aphasia-status" tabindex="-1"><a class="observablehq-header-anchor" href="#performance-by-aphasia-status">Performance by Aphasia Status</a></h3>
+<table>
+<thead>
+<tr>
+<th>Subgroup</th>
+<th>N</th>
+<th>AUROC</th>
+<th>AUPRC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aphasia</td>
+<td>574</td>
+<td>0.659</td>
+<td>0.162</td>
+</tr>
+<tr>
+<td>No Aphasia</td>
+<td>2,820</td>
+<td>0.674</td>
+<td>0.176</td>
+</tr>
+<tr>
+<td>Difference</td>
+<td>-</td>
+<td>-0.015</td>
+<td>-0.014</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Performance difference between subgroups is minimal (AUROC difference = 0.015).</li>
+<li>The model performs comparably across aphasia status, indicating no substantial bias.</li>
+<li>Slightly lower performance in the aphasia group may reflect smaller sample size or greater clinical heterogeneity.</li>
+</ul>
+<hr>
+<h2 id="multivariate-statistical-analysis" tabindex="-1"><a class="observablehq-header-anchor" href="#multivariate-statistical-analysis">Multivariate Statistical Analysis</a></h2>
+<h3 id="multivariable-logistic-regression-models" tabindex="-1"><a class="observablehq-header-anchor" href="#multivariable-logistic-regression-models">Multivariable Logistic Regression Models</a></h3>
+<p>Three models were fitted to examine independent effects after controlling for confounding variables.</p>
+<h4 id="model-1-pim-use-as-outcome" tabindex="-1"><a class="observablehq-header-anchor" href="#model-1-pim-use-as-outcome">Model 1: PIM Use as Outcome</a></h4>
+<p><strong>Formula:</strong> has_any_pim ~ has_aphasia + has_any_mental_health_condition + total_med_count</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Odds Ratio</th>
+<th>95% CI</th>
+<th>P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>has_aphasia</td>
+<td>1.18</td>
+<td>1.09-1.28</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>has_any_mental_health_condition</td>
+<td>1.85</td>
+<td>1.74-1.96</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>total_med_count</td>
+<td>1.12</td>
+<td>1.11-1.13</td>
+<td>&lt;0.001</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>After controlling for mental health status and overall medication count, aphasia remains an independent predictor of PIM use (OR = 1.18, p &lt; 0.001).</li>
+</ul>
+<h4 id="model-2-high-risk-status-as-outcome" tabindex="-1"><a class="observablehq-header-anchor" href="#model-2-high-risk-status-as-outcome">Model 2: High-Risk Status as Outcome</a></h4>
+<p><strong>Formula:</strong> is_high_risk ~ has_aphasia + has_any_mental_health_condition + total_pim_count + max_concurrent_meds</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Odds Ratio</th>
+<th>95% CI</th>
+<th>P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>has_aphasia</td>
+<td>1.12</td>
+<td>1.02-1.23</td>
+<td>0.015</td>
+</tr>
+<tr>
+<td>has_any_mental_health_condition</td>
+<td>2.34</td>
+<td>2.16-2.54</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>total_pim_count</td>
+<td>1.89</td>
+<td>1.82-1.96</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>max_concurrent_meds</td>
+<td>1.08</td>
+<td>1.07-1.09</td>
+<td>&lt;0.001</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Aphasia independently predicts high-risk status (OR = 1.12, p = 0.015) after adjusting for mental health comorbidity and medication burden.</li>
+</ul>
+<h4 id="model-3-180-day-readmission-as-outcome" tabindex="-1"><a class="observablehq-header-anchor" href="#model-3-180-day-readmission-as-outcome">Model 3: 180-Day Readmission as Outcome</a></h4>
+<p><strong>Formula:</strong> has_180day_readmission ~ has_aphasia + is_high_risk + has_any_mental_health_condition + total_med_count</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Odds Ratio</th>
+<th>95% CI</th>
+<th>P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>has_aphasia</td>
+<td>1.08</td>
+<td>0.92-1.27</td>
+<td>0.342</td>
+</tr>
+<tr>
+<td>is_high_risk</td>
+<td>1.45</td>
+<td>1.28-1.65</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>has_any_mental_health_condition</td>
+<td>1.32</td>
+<td>1.16-1.50</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>total_med_count</td>
+<td>1.02</td>
+<td>1.01-1.03</td>
+<td>&lt;0.001</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The independent effect of aphasia on readmission is attenuated after controlling for high-risk medication status and mental health comorbidity, suggesting mediation through these pathways.</li>
+</ul>
+<hr>
+<h2 id="interaction-analysis" tabindex="-1"><a class="observablehq-header-anchor" href="#interaction-analysis">Interaction Analysis</a></h2>
+<h3 id="aphasia-mental-health-on-pim-use" tabindex="-1"><a class="observablehq-header-anchor" href="#aphasia-mental-health-on-pim-use">Aphasia × Mental Health on PIM Use</a></h3>
+<p><strong>Research Question:</strong> Does the effect of aphasia on PIM use differ by mental health status?</p>
+<p><strong>Statistical Test:</strong> Interaction term in logistic regression (has_aphasia:has_any_mental_health_condition)</p>
+<p><strong>Result:</strong> Interaction p-value = 0.082 (not significant at α = 0.05)</p>
+<p><strong>Stratified Analysis:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Mental Health Status</th>
+<th>Aphasia OR for PIM Use</th>
+<th>95% CI</th>
+<th>P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No MH Condition</td>
+<td>1.14</td>
+<td>1.02-1.28</td>
+<td>0.025</td>
+</tr>
+<tr>
+<td>Has MH Condition</td>
+<td>1.22</td>
+<td>1.09-1.36</td>
+<td>&lt;0.001</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>While the interaction term did not reach statistical significance, stratified analysis suggests the effect of aphasia on PIM use may be slightly stronger among patients with mental health conditions. This pattern warrants further investigation with larger samples.</li>
+</ul>
+<hr>
+<h2 id="model-deployment-considerations" tabindex="-1"><a class="observablehq-header-anchor" href="#model-deployment-considerations">Model Deployment Considerations</a></h2>
+<h3 id="clinical-interpretability" tabindex="-1"><a class="observablehq-header-anchor" href="#clinical-interpretability">Clinical Interpretability</a></h3>
+<p>The logistic regression model provides direct clinical utility through interpretable odds ratios. For example:</p>
+<p><strong>Example Patient Risk Calculation:</strong></p>
+<ul>
+<li>Base risk: 12% (average readmission rate)</li>
+<li>Has aphasia + polypharmacy: OR = 1.62 → Adjusted risk = 18.3%</li>
+<li>Also has anxiety: OR = 1.45 → Further adjusted risk = 24.5%</li>
+<li>Also has medication-diagnosis discordance: OR = 1.38 → Final risk = 31.2%</li>
+</ul>
+<h3 id="model-limitations" tabindex="-1"><a class="observablehq-header-anchor" href="#model-limitations">Model Limitations</a></h3>
+<p><strong>Class Imbalance:</strong> Readmission rate is 12%, leading to lower AUPRC (0.174) despite acceptable AUROC (0.672).</p>
+<p><strong>Temporal Validation:</strong> Current model uses random train/test split. Future work should validate on separate temporal cohort.</p>
+<p><strong>Missing Variables:</strong> Claims data lack clinical severity measures (like stroke severity, functional status) that may improve predictions.</p>
+<p><strong>Generalizability:</strong> Model trained on commercially-insured population may not generalize to Medicare/Medicaid populations.</p>
+<hr>
+<h2 id="possible-future-directions" tabindex="-1"><a class="observablehq-header-anchor" href="#possible-future-directions">Possible Future Directions</a></h2>
+<h3 id="model-enhancement" tabindex="-1"><a class="observablehq-header-anchor" href="#model-enhancement">Model Enhancement</a></h3>
+<ul>
+<li>Incorporate temporal patterns of medication use</li>
+<li>Test ensemble methods combining multiple model types</li>
+</ul>
+<h3 id="methodological-extensions" tabindex="-1"><a class="observablehq-header-anchor" href="#methodological-extensions">Methodological Extensions</a></h3>
+<ul>
+<li>Propensity score matching for causal inference</li>
+<li>Mediation analysis of aphasia → mental health → PIM → readmission pathway</li>
+</ul>
+<hr>
+<h2 id="technical-details" tabindex="-1"><a class="observablehq-header-anchor" href="#technical-details">Technical Details</a></h2>
+<h3 id="data-files" tabindex="-1"><a class="observablehq-header-anchor" href="#data-files">Data Files</a></h3>
+<ul>
+<li><strong>Input:</strong> high_risk_cohort_with_readmissions.csv (N=53,068)</li>
+<li><strong>Filtered:</strong> Patients with PIMs only (N=16,971)</li>
+<li><strong>Features:</strong> 36 total (25 original + 11 engineered)</li>
+<li><strong>Output:</strong> Trained models saved as .pkl files</li>
+</ul>
+<h3 id="reproducibility" tabindex="-1"><a class="observablehq-header-anchor" href="#reproducibility">Reproducibility</a></h3>
+<p>All analyses are fully reproducible using scripts in the project repository:</p>
+<ul>
+<li><code>src/extract_readmission_data.py</code> - Data extraction from OMOP database</li>
+<li><code>src/feature_engineering.py</code> - Feature creation</li>
+<li><code>src/predictive_modeling.py</code> - Model training and evaluation</li>
+<li><code>src/multivariate_analyses.py</code> - Statistical analyses</li>
+</ul>
+<p>Random seed: 42 (fixed for reproducibility)</p>
+<hr>
+<p><strong>Last Updated:</strong> December 3, 2025</p>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="prev" href="./statistics-report"><span>Statistics Report</span></a><a rel="next" href="./explanatory-modeling"><span>Explanatory Modeling Report</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2025-12-04T01:50:38">Dec 4, 2025</a>.</div>
+</footer>
+</div>
+</body>
+</html>

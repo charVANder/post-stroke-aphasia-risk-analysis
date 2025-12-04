@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.3">
+<title>Methodology | OHDSI-Stroke</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="./_observablehq/theme-air,near-midnight.dcdbf18e.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="./_observablehq/theme-air,near-midnight.dcdbf18e.css">
+<link rel="modulepreload" href="./_observablehq/client.33da7c34.js">
+<link rel="modulepreload" href="./_observablehq/runtime.e080113b.js">
+<link rel="modulepreload" href="./_observablehq/stdlib.73a8ec5a.js">
+<link rel="icon" href="./_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import "./_observablehq/client.33da7c34.js";
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link"><a href="./">OHDSI-Stroke</a></li>
+  </ol>
+  <ol>
+    <li class="observablehq-link"><a href="./">Home</a></li>
+    <li class="observablehq-link observablehq-link-active"><a href="./methodology">Methodology</a></li>
+    <li class="observablehq-link"><a href="./cohort-explorer">Interactive Cohort Explorer</a></li>
+    <li class="observablehq-link"><a href="./statistics-report">Statistics Report</a></li>
+    <li class="observablehq-link"><a href="./predictive-modeling">Predictive Modeling Report</a></li>
+    <li class="observablehq-link"><a href="./explanatory-modeling">Explanatory Modeling Report</a></li>
+    <li class="observablehq-link"><a href="./visualizations">Visualizations</a></li>
+    <li class="observablehq-link"><a href="./key-takeaways">Key Takeaways</a></li>
+    <li class="observablehq-link"><a href="./conclusions">Conclusions</a></li>
+  </ol>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#1-performing-initial-eda">1. Performing Initial EDA</a></li>
+<li class="observablehq-secondary-link"><a href="#2-creating-the-base-aphasia-cohort">2. Creating the Base Aphasia Cohort</a></li>
+<li class="observablehq-secondary-link"><a href="#3-creating-flagging-tables">3. Creating Flagging Tables</a></li>
+<li class="observablehq-secondary-link"><a href="#4-prevalence-statistical-analysis">4. Prevalence/Statistical Analysis</a></li>
+<li class="observablehq-secondary-link"><a href="#5-predictive-modeling-readmission-risk-prediction">5. Predictive Modeling: Readmission Risk Prediction</a></li>
+<li class="observablehq-secondary-link"><a href="#6-explanatory-modeling-clinical-impact-analysis">6. Explanatory Modeling: Clinical Impact Analysis </a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<h1 id="methodology" tabindex="-1"><a class="observablehq-header-anchor" href="#methodology">Methodology</a></h1>
+<p>This page explains our project methodology in depth. It can mostly be split into 6 sections (EDA, Base Cohort Creation, Flagging/Indicator Tables, Prevalence/Statistic Analysis, and Predictive Modeling, and Explanatory Modeling).</p>
+<hr>
+<h2 id="1-performing-initial-eda" tabindex="-1"><a class="observablehq-header-anchor" href="#1-performing-initial-eda">1. Performing Initial EDA</a></h2>
+<p>The first few weeks of the study involved familiarizing with the OMOP Common Data Model and gaining access credentials to the Pharmetrix+ Database. After that, we extracted stroke patients who:</p>
+<ul>
+<li>Were hospitalized with stroke.</li>
+<li>Had another stroke within 180 days.</li>
+<li>Were under observation 6 months before and after.</li>
+<li>Developed any communication symptoms and can be classified by discharge status (speech disorder issues must occur
+across multiple days)</li>
+</ul>
+<p>The parameters we used for this cohort (and our base aphasia cohort) were built upon a previous project done by another group whose work can be found <a href="https://github.com/cbt87/stroke_aftercare" target="_blank" rel="noopener noreferrer">here</a>. It should be noted that this other study focused on aphasia, dysphagia, and dysarrthria, but our project focused mainly on aphasia.</p>
+<p align="center">
+    <img src="./_file/figs/eda2_cooccurrence.28895db3.png" width="750">
+</p><br>
+<p>Next we performed initial exploratory data analysis to get a sense of the stroke cohort in general (about 67,000 patients). We observed things ranging from distributions of age (see below example), gender differences, and time trends, all of which can be viewed in our GitHub Repository.</p>
+<p align="center">
+    <img src="./_file/figs/eda2_age_dist.cc5e5c6d.png" width="600">
+</p><br>
+<p>For key observations and a more detailed interpretation of our intial EDA results, please refer to the Key Takeaways section found <a href="./key-takeaways#initial-eda-takeaways">here</a>.</p>
+<hr>
+<h2 id="2-creating-the-base-aphasia-cohort" tabindex="-1"><a class="observablehq-header-anchor" href="#2-creating-the-base-aphasia-cohort">2. Creating the Base Aphasia Cohort</a></h2>
+<p>From the broader stroke cohort, the next thing we did was flag patients for aphasia based on the following conditions:</p>
+<ul>
+<li>Concept IDs 440424 and 40480002</li>
+<li>At least 2 occurrences with at least 1 of those being after a stroke event.</li>
+<li>We also removed many with dementia events that could potentially cause confounding</li>
+</ul>
+<p>Taking the previous stroke cohort requirements in account, this amounted to a total of 8265 aphasia patients in our cohort.</p>
+<hr>
+<h2 id="3-creating-flagging-tables" tabindex="-1"><a class="observablehq-header-anchor" href="#3-creating-flagging-tables">3. Creating Flagging Tables</a></h2>
+<p>We expanded the base cohort by creating flagging/indicator tables with binary columns indicating whether patients met specific conditions (mental health, PIMs, polypharmacy, or high-risk criteria). All tables and CSVs can be automatically generated and saved using the advised Makefile commands in our GitHub repository.</p>
+<h3 id="mental-health-conditions-table" tabindex="-1"><a class="observablehq-header-anchor" href="#mental-health-conditions-table">Mental Health Conditions Table</a></h3>
+<ul>
+<li>This table expands the base cohort by adding binary indicators that flag whether or not the patient has experienced any of seven mental health categories (see conditions below). Ancestor concept IDs were used to capture all descendant diagnoses within the observation period. There is also a combined flag for any mental health condition.</li>
+<li>The table also includes a <code>condition_names</code> column, which lists the exact descendant concepts recorded for each patient, allowing both high-level category analysis and detailed condition-level review.<pre data-language="bash"><code class="language-bash">mental_health_conditions = {
+    377091: <span class="hljs-string">"Seizure"</span>,
+    440383: <span class="hljs-string">"Depression"</span>,
+    442077: <span class="hljs-string">"Anxiety"</span>,
+    436665: <span class="hljs-string">"Bipolar"</span>,
+    435783: <span class="hljs-string">"Schizophrenia"</span>,
+    436676: <span class="hljs-string">"PTSD"</span>,
+    436073: <span class="hljs-string">"Psychotic Disorder"</span>
+}
+</code></pre>
+</li>
+</ul>
+<h3 id="potentially-inappropriate-medications-pim-table" tabindex="-1"><a class="observablehq-header-anchor" href="#potentially-inappropriate-medications-pim-table">Potentially Inappropriate Medications (PIM) Table</a></h3>
+<ul>
+<li>Similar to the mental health table, this PIM table has binary columns that indicate whether a patient was exposed to any PIM within each ATC drug class (antidepressants, anxiolytics, antipsychotics, hypnotics/sedatives). This table also incudes polypharmacy flags (5+ meds taken concurrently for 30+ days) for either all medications or just PIMs. Only oral (PO) PIMs within the observation period from the doctor-provided list were counted. We also tracked <code>first_pim_date</code>, <code>last_pim_date</code>, and <code>total drug_count</code> for PIM exposures.</li>
+</ul>
+<h3 id="high-risk-table" tabindex="-1"><a class="observablehq-header-anchor" href="#high-risk-table">High-Risk Table <a id="high-risk-methodology"></a></a></h3>
+<ul>
+<li>We then flagged patients for risk based on CNS Medication Classes and Mental Health (see chart below). For example, a patient taking antidepressants without a corresponding diagnosis for depression, PTSD, or anxiety would be flagged for antidepressant PIM risk.</li>
+</ul>
+<p align="center">
+    <img src="./_file/figs/mh_pim_classes.bf3db89d.png" width="600">
+</p><br>
+<ul>
+<li>A <code>total_risk_score</code> combined the four main risk flags plus the <code>has_polypharmacy</code> flag (maximum = 5). Patients with a score ≥2 were flagged as high_risk (~1,000 patients). Score distribution (0–5) was also tracked to support future analyses and statistical testing.</li>
+</ul>
+<h3 id="filtering-and-merging" tabindex="-1"><a class="observablehq-header-anchor" href="#filtering-and-merging">Filtering and Merging</a></h3>
+<ul>
+<li>In preparation for statistical analysis, we merged and mapped all of our tables to prepare for in-depth analysis. The dataset with a total of 53,068 post-stroke patients (flagged for multiple conditions)</li>
+</ul>
+<hr>
+<h2 id="4-prevalence-statistical-analysis" tabindex="-1"><a class="observablehq-header-anchor" href="#4-prevalence-statistical-analysis">4. Prevalence/Statistical Analysis</a></h2>
+<p>Using all of our cohort and flagging tables, we performed statistical analysis to compare mental health comorbidities, PIM use, and medication-diagnosis discordance patterns (high risk patterns) between patients with and without aphasia. Our final merged dataset included 53,068 post-stroke patients (8,265 with aphasia, 44,803 without).</p>
+<p>We examined prevalence rates for all seven mental health conditions and four PIM categories, along with burden metrics such as the total number of conditions or PIMs per patient. We also analyzed the medication-diagnosis discordance patterns captured by our risk flags and investigated how these factors related to high-risk classification.</p>
+<ul>
+<li>Chi-square tests were used to compare categorical outcomes (prevalence rates, distribution patterns)</li>
+<li>Independent t-tests were used for continuous measures (mean counts, burden scores).</li>
+<li>Pearson correlations were used to examine associations between aphasia status and adverse outcomes, as well as relationships between different risk factors.</li>
+<li>All tests used a significance level of α = 0.05.</li>
+</ul>
+<p>To investigate potential diagnostic gaps, we performed stratified analyses that separately examined patients with documented mental health conditions versus those without. This approach revealed whether medication-diagnosis discordance patterns differed between subgroups. Something particularly important for understanding whether aphasia patients might be receiving psychotropic medications without formal psychiatric evaluation.</p>
+<p>We also developed an interactive cohort exploration tool that allows dynamic filtering by multiple health conditions and medication patterns, enabling users to examine how aphasia prevalence varies across different patient subgroups. You can find that <a href="./cohort-explorer">here</a>.</p>
+<hr>
+<h2 id="5-predictive-modeling-readmission-risk-prediction" tabindex="-1"><a class="observablehq-header-anchor" href="#5-predictive-modeling-readmission-risk-prediction">5. Predictive Modeling: Readmission Risk Prediction</a></h2>
+<p>Three predictive models were developed using an 80/20 train-test split with stratified sampling to predict 180-day hospital readmissions in stroke survivors with PIM prescriptions. The models incorporated 36 features including medication burden metrics, mental health comorbidities, medication-diagnosis discordance flags, and engineered interaction terms. Performance was evaluated using AUROC and AUPRC metrics with SHAP values used to interpret XGBoost feature importance.</p>
+<ul>
+<li><strong>Model 1:</strong> Logistic Regression</li>
+<li><strong>Model 2:</strong> Lasso Logistic Regression</li>
+<li><strong>Model 3:</strong> XGBoost (with SHAP to interpret feature importance)</li>
+</ul>
+<p>Additionally, multivariable logistic regression models were fitted to examine independent effects of aphasia after controlling for confounding variables.</p>
+<ul>
+<li><strong>Model 1:</strong> PIM Use as outcome</li>
+<li><strong>Model 2:</strong> High-risk Status as outcome</li>
+<li><strong>Model 3:</strong> 180-day Readmission as outcome</li>
+</ul>
+<hr>
+<h2 id="6-explanatory-modeling-clinical-impact-analysis" tabindex="-1"><a class="observablehq-header-anchor" href="#6-explanatory-modeling-clinical-impact-analysis">6. Explanatory Modeling: Clinical Impact Analysis <a id="explanatory-modeling-methodology"></a></a></h2>
+<p>Building on the predictive modeling work, this analysis addressed extra questions raised about PIM impact in clinically interpretable terms:</p>
+<ol>
+<li>Are patients with PIMs more likely to experience hospital readmissions than those without, and does this relationship differ between aphasia and non-aphasia groups?</li>
+<li>What are the predicted probabilities of 180-day readmission for all aphasia/PIM combinations?</li>
+<li>How many expected readmission events per 1,000 patients does PIM exposure contribute?</li>
+<li>How much of the readmission disparity between aphasia and non-aphasia groups can be attributed to differential PIM prescription rates versus differential response to PIMs?</li>
+</ol>
+<p>A logistic regression model was developed using the full post-stroke cohort (N=53,068) to quantify the association between PIM exposure and 180-day readmissions. The model included aphasia status, PIM exposure, and seven mental health comorbidities as covariates. An interaction term (aphasia × PIM) was tested but removed due to non-significance (p &gt; 0.95).A high-risk subset (N=16,971 with PIMs) was initially analyzed, but we expanded to the full cohort to avoid selection bias from PIM-related filtering criteria.</p>
+<p><strong>Statistical methods:</strong></p>
+<ul>
+<li>L1 regularization (α = 0.01) to handle quasi-separation</li>
+<li>Bootstrap confidence intervals (1,000 iterations) for predicted probabilities</li>
+<li>G-computation for marginal effects decomposition</li>
+</ul>
+<p>The analysis produced predicted probabilities of readmission for all aphasia/PIM combinations, translated these into expected events per 1,000 patients, and decomposed readmission disparities by their contributing factors.</p>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="prev" href="./"><span>OHDSI-Stroke</span></a><a rel="next" href="./cohort-explorer"><span>Interactive Cohort Explorer</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2025-12-04T01:50:38">Dec 4, 2025</a>.</div>
+</footer>
+</div>
+</body>
+</html>

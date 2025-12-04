@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.3">
+<title>Prevalence and Impact of PIMs, Mental Health, and Polypharmacy in Post-Stroke Aphasia | OHDSI-Stroke</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="./_observablehq/theme-air,near-midnight.dcdbf18e.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="./_observablehq/theme-air,near-midnight.dcdbf18e.css">
+<link rel="modulepreload" href="./_observablehq/client.33da7c34.js">
+<link rel="modulepreload" href="./_observablehq/runtime.e080113b.js">
+<link rel="modulepreload" href="./_observablehq/stdlib.73a8ec5a.js">
+<link rel="icon" href="./_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import "./_observablehq/client.33da7c34.js";
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link observablehq-link-active"><a href="./">OHDSI-Stroke</a></li>
+  </ol>
+  <ol>
+    <li class="observablehq-link observablehq-link-active"><a href="./">Home</a></li>
+    <li class="observablehq-link"><a href="./methodology">Methodology</a></li>
+    <li class="observablehq-link"><a href="./cohort-explorer">Interactive Cohort Explorer</a></li>
+    <li class="observablehq-link"><a href="./statistics-report">Statistics Report</a></li>
+    <li class="observablehq-link"><a href="./predictive-modeling">Predictive Modeling Report</a></li>
+    <li class="observablehq-link"><a href="./explanatory-modeling">Explanatory Modeling Report</a></li>
+    <li class="observablehq-link"><a href="./visualizations">Visualizations</a></li>
+    <li class="observablehq-link"><a href="./key-takeaways">Key Takeaways</a></li>
+    <li class="observablehq-link"><a href="./conclusions">Conclusions</a></li>
+  </ol>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#website-contents">Website Contents</a></li>
+<li class="observablehq-secondary-link"><a href="#background">Background </a></li>
+<li class="observablehq-secondary-link"><a href="#research-overview">Research Overview</a></li>
+<li class="observablehq-secondary-link"><a href="#our-main-objective">Our Main Objective</a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<h1 id="prevalence-and-impact-of-pims-mental-health-and-polypharmacy-in-post-stroke-aphasia" tabindex="-1"><a class="observablehq-header-anchor" href="#prevalence-and-impact-of-pims-mental-health-and-polypharmacy-in-post-stroke-aphasia">Prevalence and Impact of PIMs, Mental Health, and Polypharmacy in Post-Stroke Aphasia</a></h1>
+<p><strong>Project Team:</strong> <a href="https://github.com/charVANder" target="_blank" rel="noopener noreferrer">Evangeline Kim</a> &amp; <a href="https://github.com/LRDOC" target="_blank" rel="noopener noreferrer">Liam O'Connor</a></p>
+<p><strong>Stakeholder:</strong> <a href="https://roux.northeastern.edu/people/rob-cavanaugh/" target="_blank" rel="noopener noreferrer">Rob Cavanaugh</a> (PhD, Asst. Prof., MGH Institute, The Roux Institute)</p>
+<hr>
+<h2 id="website-contents" tabindex="-1"><a class="observablehq-header-anchor" href="#website-contents">Website Contents</a></h2>
+<ul>
+<li><strong><a href="./#background">HOME</a></strong> - Background, overview, and objectives of our project.</li>
+<li><strong><a href="./methodology">METHODOLOGY</a></strong> - A detailed explanation of our project methodology.</li>
+<li><strong><a href="./cohort-explorer">INTERACTIVE COHORT EXPLORER</a></strong> - An interactive graph to observe prevalence within various cohort populations. Meant to be paired with our statistics report and results reports.</li>
+<li><strong><a href="./statistics-report">STATISTICS REPORT</a></strong> - Raw statistics and test results of our cohort analysis. All associated visualizations are linked.</li>
+<li><strong><a href="./predictive-modeling">PREDICTIVE MODELING REPORT</a></strong> - Walkthrough of our predictive modeling pipelines developed to identify stroke survivors at risk for hospital readmission. All associated visualizations are linked.</li>
+<li><strong><a href="./explanatory-modeling">EXPLANATORY MODELING REPORT</a></strong> - Walkthrough of our explanatory modeling pipeline developed to explore the clinical impact of PIMs. All associated visualizations are linked.</li>
+<li><strong><a href="./visualizations">VISUALIZATIONS</a></strong> - Various visualizations and interactive graphs created throughout our methodology. Each visual is linked to its specific use case in the results reports.</li>
+<li><strong><a href="./key-takeaways">KEY TAKEAWAYS</a></strong> - Summarized key observations and interpretations of all results done throughout the project.</li>
+<li><strong><a href="./conclusions">CONCLUSIONS</a></strong> - Concluding statements, future work, challenges, and acknowledgements.</li>
+</ul>
+<hr>
+<h2 id="background" tabindex="-1"><a class="observablehq-header-anchor" href="#background">Background <a id="background"></a></a></h2>
+<p>Stroke remains one of the most significant public health challenges in the United States, affecting over 800,000 people each year and contributing to over $55 billion in annual healthcare costs. Although survival rates have improved, many stroke survivors live with long-term complications that shape their recovery and quality of life.</p>
+<p>This project examines how communication barriers, mental health conditions, and medication-related risks affect stroke survivors with aphasia. Using large-scale claims data mapped to the OMOP Common Data Model, we aim to identify prescribing patterns, explore risk factors, and uncover opportunities to improve post-stroke care for a vulnerable and often under-recognized population.</p>
+<h3 id="strokes" tabindex="-1"><a class="observablehq-header-anchor" href="#strokes">Strokes</a></h3>
+<ul>
+<li>Every 40 seconds, someone in the U.S. experiences a stroke. As one of the leading causes of serious long-term disability, stroke impacts multiple domains of function, including physical ability, cognition, and communication. These effects extend far beyond the acute event, influencing how patients navigate the healthcare system and manage their recovery over time.</li>
+</ul>
+<h3 id="aphasia" tabindex="-1"><a class="observablehq-header-anchor" href="#aphasia">Aphasia</a></h3>
+<ul>
+<li>Aphasia affects 25–40% of stroke survivors and can impair speaking, understanding, reading, and writing. These communication barriers create significant challenges in clinical settings, where clear patient–provider interaction is essential for accurate diagnosis, shared decision-making, and safe medication management. Many survivors with aphasia also experience mental health conditions (such as depression or anxiety) that may go unrecognized precisely because the communication difficulties associated with aphasia make symptoms harder to express.</li>
+</ul>
+<h3 id="why-does-this-matter" tabindex="-1"><a class="observablehq-header-anchor" href="#why-does-this-matter">Why Does this Matter?</a></h3>
+<ul>
+<li>Stroke survivors with aphasia face compounded risks. Communication limitations can lead to incomplete diagnostic evaluations, underdiagnosed mental health needs, inappropriate medication prescribing, and overall care coordination. Understanding how aphasia intersects with medication management and mental health is critical for increasing patient safety, reducing preventable readmissions, and improving post-stroke care.</li>
+</ul>
+<hr>
+<h2 id="research-overview" tabindex="-1"><a class="observablehq-header-anchor" href="#research-overview">Research Overview</a></h2>
+<p>Using the Pharmetrics+ claims dataset and the OMOP Common Data Model, our study examined medication management patterns in more than 53,000 post-stroke patients. We investigated how aphasia status relates to potentially inappropriate medications (PIMs), mental health comorbidities, medication-diagnosis discordance, and polypharmacy. By comparing outcomes between patients with and without aphasia, we aimed to identify high-risk prescribing patterns that may compromise patient safety and highlight opportunities to improve post-stroke care.</p>
+<hr>
+<h2 id="our-main-objective" tabindex="-1"><a class="observablehq-header-anchor" href="#our-main-objective">Our Main Objective</a></h2>
+<p><strong>Investigate the prevalence and impact of potentially inappropriate medications (PIMs) and polypharmacy in stroke survivors (especially those with aphasia) by identifying high-risk prescribing patterns, exploring links to the underdiagnosed mental health conditions, and quantifying how these factors relate to hospital readmissions.</strong></p>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="next" href="./methodology"><span>Methodology</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2025-12-04T01:50:38">Dec 4, 2025</a>.</div>
+</footer>
+</div>
+</body>
+</html>

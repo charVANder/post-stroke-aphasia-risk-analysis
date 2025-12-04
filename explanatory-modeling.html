@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.3">
+<title>Explanatory Modeling: Clinical Impact of PIMs and Hospital Readmissions | OHDSI-Stroke</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="./_observablehq/theme-air,near-midnight.dcdbf18e.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="./_observablehq/theme-air,near-midnight.dcdbf18e.css">
+<link rel="modulepreload" href="./_observablehq/client.33da7c34.js">
+<link rel="modulepreload" href="./_observablehq/runtime.e080113b.js">
+<link rel="modulepreload" href="./_observablehq/stdlib.73a8ec5a.js">
+<link rel="icon" href="./_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import "./_observablehq/client.33da7c34.js";
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link"><a href="./">OHDSI-Stroke</a></li>
+  </ol>
+  <ol>
+    <li class="observablehq-link"><a href="./">Home</a></li>
+    <li class="observablehq-link"><a href="./methodology">Methodology</a></li>
+    <li class="observablehq-link"><a href="./cohort-explorer">Interactive Cohort Explorer</a></li>
+    <li class="observablehq-link"><a href="./statistics-report">Statistics Report</a></li>
+    <li class="observablehq-link"><a href="./predictive-modeling">Predictive Modeling Report</a></li>
+    <li class="observablehq-link observablehq-link-active"><a href="./explanatory-modeling">Explanatory Modeling Report</a></li>
+    <li class="observablehq-link"><a href="./visualizations">Visualizations</a></li>
+    <li class="observablehq-link"><a href="./key-takeaways">Key Takeaways</a></li>
+    <li class="observablehq-link"><a href="./conclusions">Conclusions</a></li>
+  </ol>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#study-population">Study Population</a></li>
+<li class="observablehq-secondary-link"><a href="#methods">Methods</a></li>
+<li class="observablehq-secondary-link"><a href="#quasi-separation">Quasi-Separation</a></li>
+<li class="observablehq-secondary-link"><a href="#observed-readmission-rates">Observed Readmission Rates</a></li>
+<li class="observablehq-secondary-link"><a href="#model-results">Model Results</a></li>
+<li class="observablehq-secondary-link"><a href="#predicted-probabilities">Predicted Probabilities</a></li>
+<li class="observablehq-secondary-link"><a href="#expected-events-per-1-000-patients">Expected Events per 1,000 Patients</a></li>
+<li class="observablehq-secondary-link"><a href="#risk-differences">Risk Differences</a></li>
+<li class="observablehq-secondary-link"><a href="#marginal-effects-decomposition">Marginal Effects Decomposition</a></li>
+<li class="observablehq-secondary-link"><a href="#reproducibility-and-technical-details">Reproducibility and Technical Details</a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<h1 id="explanatory-modeling-clinical-impact-of-pims-and-hospital-readmissions" tabindex="-1"><a class="observablehq-header-anchor" href="#explanatory-modeling-clinical-impact-of-pims-and-hospital-readmissions">Explanatory Modeling: Clinical Impact of PIMs and Hospital Readmissions</a></h1>
+<p>This page presents our analysis quantifying the clinical impact of potentially inappropriate medications (PIMs) on hospital readmissions among post-stroke patients, with attention to disparities by aphasia status.</p>
+<p>For key observations and a detailed interpretation of these results, please refer to the specific Key Takeaways section found <a href="./key-takeaways#explanatory-modeling-takeaways">here</a>.</p>
+<hr>
+<h2 id="study-population" tabindex="-1"><a class="observablehq-header-anchor" href="#study-population">Study Population</a></h2>
+<p><strong>Full Post-Stroke Cohort:</strong> 53,068 patients</p>
+<ul>
+<li>With Aphasia: 8,265 (15.57%)</li>
+<li>Without Aphasia: 44,803 (84.43%)</li>
+</ul>
+<p>Our initial analysis used a "high-risk" subset selected based on medication-diagnosis discordance criteria. However, this created circular definition issues (cohort selection included PIM-related criteria), potentially biasing PIM effect estimates. To avoid this, the final analysis used the complete post-stroke cohort, providing more generalizable findings about PIM associations across all stroke survivors.</p>
+<hr>
+<h2 id="methods" tabindex="-1"><a class="observablehq-header-anchor" href="#methods">Methods</a></h2>
+<p>See <a href="./methodology#explanatory-modeling-methodology">Methodology</a> for more details.</p>
+<h3 id="logistic-regression-model" tabindex="-1"><a class="observablehq-header-anchor" href="#logistic-regression-model">Logistic Regression Model</a></h3>
+<pre><code>logit(P(readmission)) = β₀ + β₁(aphasia) + β₂(PIM) +
+                        β₃(depression) + β₄(anxiety) + β₅(PTSD) +
+                        β₆(bipolar) + β₇(schizophrenia) +
+                        β₈(psychotic disorder) + β₉(seizure)
+</code></pre>
+<p><strong>Outcome:</strong> Hospital readmission within 180 days of stroke</p>
+<h3 id="key-predictors" tabindex="-1"><a class="observablehq-header-anchor" href="#key-predictors">Key Predictors</a></h3>
+<ul>
+<li>Aphasia status (binary)</li>
+<li>Any PIM exposure during observation period (binary)</li>
+<li>Seven mental health comorbidities (confounders)</li>
+</ul>
+<p><strong>Note:</strong> Interaction term (aphasia × PIM) was tested but found non-significant (p &gt; 0.95) and removed from the final model.</p>
+<h3 id="statistical-methods" tabindex="-1"><a class="observablehq-header-anchor" href="#statistical-methods">Statistical Methods</a></h3>
+<ul>
+<li>L1 regularization (α = 0.01) to handle quasi-separation</li>
+<li>Bootstrap confidence intervals (1,000 iterations) for predicted probabilities</li>
+<li>G-computation for marginal effects decomposition</li>
+</ul>
+<p>All analyses can be performed in <code>src/clinical_impact/run_analysis.py</code> with automated result generation and visualization.</p>
+<hr>
+<h2 id="quasi-separation" tabindex="-1"><a class="observablehq-header-anchor" href="#quasi-separation">Quasi-Separation</a></h2>
+<p>A notable data pattern emerged during our analysis. 68% of patients were able to be perfectly predicted by a simple rule. This quasi-separation manifested as:</p>
+<ul>
+<li>Patients <strong>without PIMs</strong> had near-zero readmission rates across the full cohort</li>
+<li>Patients <strong>with PIMs</strong> showed substantial readmission rates (21-26%)</li>
+</ul>
+<p>This pattern persisted even when analyzing the full 53,068-patient cohort, indicating it reflects true data structure rather than cohort selection artifacts.</p>
+<p>The extreme separation suggests that PIM exposure is an exceptionally strong marker of readmission risk, though the magnitude likely reflects that PIMs prescribed to sicker patients already at high readmission risk (confounding by indication) rather than a purely causal effect.</p>
+<hr>
+<h2 id="observed-readmission-rates" tabindex="-1"><a class="observablehq-header-anchor" href="#observed-readmission-rates">Observed Readmission Rates</a></h2>
+<p>Unadjusted 180-day readmission rates by aphasia status and PIM exposure:</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Readmission Rate</th>
+<th>PIM Prescription Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No Aphasia (N=44,803)</td>
+<td>7.50%</td>
+<td>31.48%</td>
+</tr>
+<tr>
+<td>Aphasia (N=8,265)</td>
+<td>10.48%</td>
+<td>34.71%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Aphasia patients showed 2.98 percentage points higher readmission rate</li>
+<li>PIM prescription rates were modestly elevated in aphasia group (+3.24pp)</li>
+<li>Absolute disparity: +29.8 events per 1,000 patients</li>
+</ul>
+<p><em>An interactive graph (Observed Readmission Rates) to view the observed readmission rates can be seen in the visualization page <a href="./visualizations#observed-readmission-rates">here</a>. Toggle the display mode to view between readmission rates and PIM prescription rates.</em></p>
+<hr>
+<h2 id="model-results" tabindex="-1"><a class="observablehq-header-anchor" href="#model-results">Model Results</a></h2>
+<h3 id="odds-ratios" tabindex="-1"><a class="observablehq-header-anchor" href="#odds-ratios">Odds Ratios</a></h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Odds Ratio</th>
+<th>95% CI</th>
+<th>P-value</th>
+<th>Significance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PIM Exposure</strong></td>
+<td><strong>289,059</strong></td>
+<td><strong>[7.4, 1.13×10¹⁰]</strong></td>
+<td><strong>0.020</strong></td>
+<td><strong>*</strong></td>
+</tr>
+<tr>
+<td>Seizure Disorder</td>
+<td>1.90</td>
+<td>[1.74, 2.07]</td>
+<td>&lt;0.001</td>
+<td>***</td>
+</tr>
+<tr>
+<td>Psychotic Disorder</td>
+<td>2.02</td>
+<td>[1.60, 2.56]</td>
+<td>&lt;0.001</td>
+<td>***</td>
+</tr>
+<tr>
+<td>Depression</td>
+<td>1.43</td>
+<td>[1.33, 1.54]</td>
+<td>&lt;0.001</td>
+<td>***</td>
+</tr>
+<tr>
+<td>Bipolar Disorder</td>
+<td>1.41</td>
+<td>[1.19, 1.67]</td>
+<td>&lt;0.001</td>
+<td>***</td>
+</tr>
+<tr>
+<td><strong>Aphasia</strong></td>
+<td><strong>1.29</strong></td>
+<td><strong>[1.17, 1.41]</strong></td>
+<td><strong>&lt;0.001</strong></td>
+<td><strong>***</strong></td>
+</tr>
+<tr>
+<td>Anxiety</td>
+<td>1.12</td>
+<td>[1.04, 1.21]</td>
+<td>0.002</td>
+<td>**</td>
+</tr>
+<tr>
+<td>PTSD</td>
+<td>0.97</td>
+<td>[0.78, 1.21]</td>
+<td>0.796</td>
+<td></td>
+</tr>
+<tr>
+<td>Schizophrenia</td>
+<td>0.81</td>
+<td>[0.55, 1.20]</td>
+<td>0.292</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>*p&lt;0.05, **p&lt;0.01, ***p&lt;0.001</p>
+<p><em>An interactive forest plot (Forest Plot for Odds Ratios) can be seen in the visualizations page <a href="./visualizations#forest-plot">here</a>. The extreme odds ratio for PIM Exposure makes it difficult to visualize the other predictors on a standard scale, so you can toggle the display mode to look at either the log scale (with all predictors), the log scale excluding PIM (clearer comparison), or linear scale (compressed).</em></p>
+<p><strong>Model Fit:</strong></p>
+<ul>
+<li>Pseudo R² (McFadden): 0.371</li>
+<li>AIC: 18,571.8</li>
+<li>BIC: 18,660.6</li>
+</ul>
+<p>The extreme OR for PIM exposure (289,059) reflects the quasi-separation pattern described earlier. While statistically significant, this should be interpreted as a very strong association rather than a causal effect estimate.</p>
+<hr>
+<h2 id="predicted-probabilities" tabindex="-1"><a class="observablehq-header-anchor" href="#predicted-probabilities">Predicted Probabilities</a></h2>
+<p>Model-predicted 180-day readmission probabilities by aphasia status and PIM exposure, marginalizing over observed mental health confounder distributions.</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Predicted Probability</th>
+<th>95% CI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aphasia + PIM</td>
+<td>26.09%</td>
+<td>[24.55%, 27.71%]</td>
+</tr>
+<tr>
+<td>Aphasia + No PIM</td>
+<td>0.26%</td>
+<td>[0.00%, 0.03%]</td>
+</tr>
+<tr>
+<td>No Aphasia + PIM</td>
+<td>21.61%</td>
+<td>[20.83%, 22.41%]</td>
+</tr>
+<tr>
+<td>No Aphasia + No PIM</td>
+<td>0.26%</td>
+<td>[0.00%, 0.02%]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>PIM exposure is associated with ~100-fold increase in readmission probability.</li>
+<li>Aphasia patients with PIMs show modestly higher readmission risk (+4.48pp) compared to non-aphasia patients with PIMs.</li>
+<li>Readmission risk is nearly identical across aphasia status when PIMs are absent.</li>
+</ul>
+<hr>
+<h2 id="expected-events-per-1-000-patients" tabindex="-1"><a class="observablehq-header-anchor" href="#expected-events-per-1-000-patients">Expected Events per 1,000 Patients</a></h2>
+<p>As suggested, we also translated the predicted probabilities into expected readmission events per 1,000 patients.</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Events per 1,000</th>
+<th>95% CI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aphasia + PIM</td>
+<td>260.9</td>
+<td>[245.5, 277.1]</td>
+</tr>
+<tr>
+<td>Aphasia + No PIM</td>
+<td>2.6</td>
+<td>[0.0, 0.3]</td>
+</tr>
+<tr>
+<td>No Aphasia + PIM</td>
+<td>216.1</td>
+<td>[208.3, 224.1]</td>
+</tr>
+<tr>
+<td>No Aphasia + No PIM</td>
+<td>2.6</td>
+<td>[0.0, 0.2]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Among 1,000 aphasia patients with PIMs, expect ~261 readmissions within 180 days.</li>
+<li>Among 1,000 aphasia patients without PIMs, expect ~3 readmissions.</li>
+<li>PIM-associated excess risk: ~258 additional events per 1,000 aphasia patients.</li>
+</ul>
+<p><em>Click <a href="./visualizations#events-per-1000-graph">here</a> to see the visualization of expected events per 1,000 Patients (Expected Events Per 1000 Patients).</em></p>
+<hr>
+<h2 id="risk-differences" tabindex="-1"><a class="observablehq-header-anchor" href="#risk-differences">Risk Differences</a></h2>
+<h3 id="within-group-comparisons-pim-vs-no-pim" tabindex="-1"><a class="observablehq-header-anchor" href="#within-group-comparisons-pim-vs-no-pim">Within-Group Comparisons (PIM vs No PIM)</a></h3>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Absolute Risk Difference</th>
+<th>Relative Risk Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aphasia</td>
+<td>+258.2 per 1,000</td>
+<td>+9,778%</td>
+</tr>
+<tr>
+<td>No Aphasia</td>
+<td>+213.5 per 1,000</td>
+<td>+8,221%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="between-group-comparisons-aphasia-vs-no-aphasia" tabindex="-1"><a class="observablehq-header-anchor" href="#between-group-comparisons-aphasia-vs-no-aphasia">Between-Group Comparisons (Aphasia vs No Aphasia)</a></h3>
+<table>
+<thead>
+<tr>
+<th>PIM Status</th>
+<th>Absolute Risk Difference</th>
+<th>Relative Risk Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>With PIMs</td>
+<td>+44.7 per 1,000</td>
+<td>+20.7%</td>
+</tr>
+<tr>
+<td>Without PIMs</td>
+<td>+0.0 per 1,000</td>
+<td>+1.7%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>PIM exposure appears to associate with massive absolute risk increases in both groups.</li>
+<li>Aphasia's additional contribution is modest when PIMs are present (+45 events per 1,000)</li>
+<li>Aphasia effect is negligible when PIMs are absent</li>
+</ul>
+<hr>
+<h2 id="marginal-effects-decomposition" tabindex="-1"><a class="observablehq-header-anchor" href="#marginal-effects-decomposition">Marginal Effects Decomposition</a></h2>
+<p>Decomposition of the 29.8 per 1,000 readmission disparity between aphasia and non-aphasia groups.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Contribution (per 1,000)</th>
+<th>% of Disparity</th>
+<th>Our Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline Risk</td>
+<td>0.0</td>
+<td>0.0%</td>
+<td>Readmission risk without aphasia or PIMs</td>
+</tr>
+<tr>
+<td><strong>Differential PIM Exposure</strong></td>
+<td><strong>7.0</strong></td>
+<td><strong>23.4%</strong></td>
+<td>Due to higher PIM prescription rates in aphasia group</td>
+</tr>
+<tr>
+<td>Independent Aphasia Effect</td>
+<td>0.0</td>
+<td>0.0%</td>
+<td>Direct effect of aphasia without PIMs</td>
+</tr>
+<tr>
+<td><strong>Interaction Effect</strong></td>
+<td><strong>44.5</strong></td>
+<td><strong>149.0%</strong></td>
+<td>Differential response to PIMs between groups</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> Components sum to 22.4 per 1,000 (model-predicted disparity) versus 29.8 per 1,000 observed, reflecting model fit.</p>
+<ul>
+<li>Differential PIM prescription accounts for ~23% of the disparity (aphasia patients prescribed PIMs at higher rates).</li>
+<li>Interaction effect dominates (149%), suggesting aphasia patients experience greater readmission risk when exposed to PIMs.</li>
+<li>Independent aphasia effect is minimal (0%) when PIM exposure is controlled.</li>
+</ul>
+<p><em>Click <a href="./visualizations#marginal-effects-graph">here</a> to view the bar chart (Marginal Effects Decomposition) showing the decomposition components. There is a toggle to switch between absolute contributions (per 1,000) and percentage of disparity.</em></p>
+<hr>
+<h2 id="reproducibility-and-technical-details" tabindex="-1"><a class="observablehq-header-anchor" href="#reproducibility-and-technical-details">Reproducibility and Technical Details</a></h2>
+<p>All analyses are fully reproducible using scripts in the project repository:</p>
+<p><strong>Analysis Script:</strong> <code>src/clinical_impact/run_analysis.py</code></p>
+<p><strong>Outputs:</strong></p>
+<ul>
+<li>Model coefficients and odds ratios: <code>data/clinical_impact_model_results.csv</code></li>
+<li>Predicted probabilities: <code>data/clinical_impact_predicted_probabilities.csv</code></li>
+<li>Risk differences: <code>data/clinical_impact_risk_differences.csv</code></li>
+<li>Marginal effects decomposition: <code>data/clinical_impact_marginal_effects_decomposition.csv</code></li>
+<li>Visualizations: <code>figs/clinical_impact_*.png</code></li>
+</ul>
+<hr>
+<p><strong>Last Updated:</strong> December 2, 2025</p>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="prev" href="./predictive-modeling"><span>Predictive Modeling Report</span></a><a rel="next" href="./visualizations"><span>Visualizations</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2025-12-04T01:50:38">Dec 4, 2025</a>.</div>
+</footer>
+</div>
+</body>
+</html>
